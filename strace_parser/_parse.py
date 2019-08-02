@@ -6,8 +6,8 @@ from attr import dataclass
 
 LINE_REGEXP = re.compile(
     "^(?P<datetime>[^ ]*) "
-    "(?P<method>\w+)"
-    "\((?P<args>.*?)\)"
+    "(?P<method>\\w+)"
+    "\\((?P<args>.*?)\\)"
 )
 
 
