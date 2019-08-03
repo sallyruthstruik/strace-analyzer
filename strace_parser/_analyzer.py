@@ -10,12 +10,14 @@ class Analyzer:
 
     def __init__(self, parsed: typing.List[dict]):
         self.df = pd.DataFrame(parsed)
-
         self.parse_args()
 
     def parse_args(self):
-        self.df["pid"] = self.df[self.rows_with_pid()].args.str.split(",", expand=True)[0]
         self.df["datetime"] = to_datetime(self.df.datetime)
+
+        rows_with_pid = self.df[self.rows_with_pid()]
+        self.df["duration"] = self.df['duration'].astype(float)
+        self.df["pid"] = rows_with_pid.args.str.split(",", expand=True)[0]
 
     @classmethod
     def from_fd(cls, lines):

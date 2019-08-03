@@ -7,7 +7,8 @@ from attr import dataclass
 LINE_REGEXP = re.compile(
     "^(?P<datetime>[^ ]*) "
     "(?P<method>\\w+)"
-    "\\((?P<args>.*?)\\)"
+    "\\((?P<args>.*?)\\).*"
+    "<(?P<duration>.*)>"
 )
 
 
@@ -22,6 +23,7 @@ class ParsedLine:
     method: str
     args: str
     raw_line: str
+    duration: str
 
     def check_keys(self, k):
         diff = set(k.keys()).difference(self.__slots__)
@@ -60,6 +62,7 @@ class Parser:
             datetime=self.get_value(m, "datetime"),
             method=self.get_value(m, "method"),
             args=self.get_value(m, "args"),
+            duration=self.get_value(m, "duration"),
             raw_line=self.current_line,
             line_index=self.current_line_index,
         )
